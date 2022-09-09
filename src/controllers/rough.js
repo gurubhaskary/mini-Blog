@@ -74,3 +74,48 @@
 //         res.status(500).send({ msg: error.message })
 //     }
 // }
+
+
+// const authorise2 = async function (req, res, next) {
+//     try {
+       
+//         let userToLoggedIn = req.decodedToken.authorid
+//         let { tags, authorId, category, subcategory } = req.query
+//         const filter={}
+//         if (authorId) filter.authorId = authorId
+//         if (category) filter.category = category
+//         if (authorId) filter.authorId = authorId
+//         if (subcategory) filter.subcategory = subcategory.split(",");
+//         if (tags) filter.tags = tags.split(",");
+//         let matchedData = await blogModel.find(filter)
+//         let filterauthorid = matchedData[0].authorId.toString()
+//         if ((filterauthorid != userToLoggedIn)) {
+//             return res.status(403).send({ msg: "User Has No Access to the Collection due to tags" })
+//         }
+//         next() 
+//     }
+//     catch (error) {
+//         res.status(500).send("SERVER ERROR", error.message)
+//     }
+// }
+
+// const delBlogByQuery = async function (req, res) {
+//     try {
+//         let { category, authorId, tags, subcategory, isPublished } = req.query;
+//         const filter = { isDeleted: false };
+//         if (category) filter.category = category;
+//         if (authorId) filter.authorId = authorId;
+//         if (tags) filter.tags = tags.split(",");
+//         if (subcategory) filter.subcategory = subcategory.split(",");
+//         // if isPublished true then we dont needto add this filter because we nned to delete only if blog is unpublished
+//         if (isPublished == false) filter.isPublished = isPublished;
+
+//         let matchedData = await blogModel.find(filter);
+//         if (matchedData.length === 0) return res.status(404).send({ status: false, message: "no such data with provided filter conditions" });
+//         let updateDelete = await blogModel.updateMany(filter, { $set: { isDeleted: true, deletedAt: date.format() } }, { new: true })
+//         return res.status(200).send({ status: true, data: updateDelete })
+//     }
+//     catch (err) {
+//         return res.status(500).send({ data: err.mrssage })
+//     }
+// }

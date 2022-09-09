@@ -87,26 +87,21 @@ const delBlogByParams = async function (req, res) {
 }
 
 // ========================DeleteBlog By Query Param===========================
-const delBlogByQuery = async function (req, res) {
-    try {
-        let { category, authorId, tags, subcategory, isPublished } = req.query;
-        const filter = { isDeleted: false };
-        if (category) filter.category = category;
-        if (authorId) filter.authorId = authorId;
-        if (tags) filter.tags = tags.split(",");
-        if (subcategory) filter.subcategory = subcategory.split(",");
-        // if isPublished true then we dont needto add this filter because we nned to delete only if blog is unpublished
-        if (isPublished == false) filter.isPublished = isPublished;
-
+const delBlogByQuery = async function(req, res) {
+    try{
+        let filter = req.filter;
         let matchedData = await blogModel.find(filter);
-        if (matchedData.length === 0) return res.status(404).send({ status: false, message: "no such data with provided filter conditions" });
-        let updateDelete = await blogModel.updateMany(filter, { $set: { isDeleted: true, deletedAt: date.format() } }, { new: true })
-        return res.status(200).send({ status: true, data: updateDelete })
+        if(matchedData.length === 0) return res.status(404).send({status: false, message: "no such data with provided filter conditions"});
+        let updateDelete = await blogModel.updateMany({$and:[{authorId: req.authorizedDataToBeDeleted},filter]},{$set: {isDeleted: true, deletedAt: date.format()}},{new: true})
+        
+        console.log(updateDelete);
+        return res.status(200).send({status: true, data: updateDelete})
     }
-    catch (err) {
-        return res.status(500).send({ data: err.mrssage })
+    catch(err) {
+        return res.status(500).send("server error", err.mrssage)
     }
 }
+
 
 module.exports.delBlogByQuery = delBlogByQuery
 module.exports.updateBlogs = updateBlogs
