@@ -82,7 +82,7 @@ const delBlogByParams = async function (req, res) {
         }
     }
     catch (err) {
-        res.status(500).send(err.message)
+        return res.status(500).send({msg: err.mrssage})
     }
 }
 
@@ -92,13 +92,14 @@ const delBlogByQuery = async function(req, res) {
         let filter = req.filter;
         let matchedData = await blogModel.find(filter);
         if(matchedData.length === 0) return res.status(404).send({status: false, message: "no such data with provided filter conditions"});
+        //Till Here
         let updateDelete = await blogModel.updateMany({$and:[{authorId: req.authorizedDataToBeDeleted},filter]},{$set: {isDeleted: true, deletedAt: date.format()}},{new: true})
         
         console.log(updateDelete);
         return res.status(200).send({status: true, data: updateDelete})
     }
     catch(err) {
-        return res.status(500).send("server error", err.mrssage)
+        return res.status(500).send({msg: err.mrssage})
     }
 }
 

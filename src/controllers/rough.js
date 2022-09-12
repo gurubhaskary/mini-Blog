@@ -119,3 +119,6 @@
 //         return res.status(500).send({ data: err.mrssage })
 //     }
 // }
+
+
+// let updateDelete = await blogModel.updateMany({filterAuthorId,filter},{$set: {isDeleted: true, deletedAt: date.format()}},{new: true})
