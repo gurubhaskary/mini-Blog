@@ -13,7 +13,7 @@ const authenticate = async function (req, res, next) {
         next()
     }
     catch (error) {
-        res.status(500).send("SERVER ERROR", error.message)
+        return res.status(500).send({status:false,msg: err.mrssage})
     }
 }
 
@@ -31,7 +31,7 @@ const authorise = async function (req, res, next) {
         next()
     }
     catch (error) {
-        res.status(500).send("SERVER ERROR", error.message)
+        return res.status(500).send({status:false,msg: err.mrssage})
     }
 }
 
@@ -60,7 +60,7 @@ const authorise2 = async function (req, res, next) {
         next()
     }
     catch (error) {
-        res.status(500).send("SERVER ERROR", error.message)
+        return res.status(500).send({status:false,msg: err.mrssage})
     }
 }
 

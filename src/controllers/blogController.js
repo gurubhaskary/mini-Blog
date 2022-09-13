@@ -17,14 +17,14 @@ const createBlog = async function (req, res) {
         });
         if (checkAuthorID) {
             let data = await blogModel.create(blog)
-            res.status(201).send({ data: data })
+            res.status(201).send({ status:true,data: data })
 
         }
         else res.status(400).send({ msg: "author id is not valid" })
 
     }
     catch (error) {
-        res.status(500).send({ msg: error.message })
+        res.status(500).send({ status:false,msg: error.message })
     }
 }
 
@@ -42,7 +42,7 @@ let getBlogs = async function (req, res) {
         return res.status(200).send({ status: true, data: matchedData })
     }
     catch (error) {
-        res.status(500).send({ msg: error.message })
+        res.status(500).send({ status:false,msg: error.message })
     }
 }
 
@@ -82,7 +82,7 @@ const delBlogByParams = async function (req, res) {
         }
     }
     catch (err) {
-        return res.status(500).send({msg: err.mrssage})
+        return res.status(500).send({status:false,msg: err.mrssage})
     }
 }
 
@@ -98,7 +98,7 @@ const delBlogByQuery = async function(req, res) {
         return res.status(200).send({status: true, data: updateDelete})
     }
     catch(err) {
-        return res.status(500).send({msg: err.mrssage})
+        return res.status(500).send({status:false,msg: err.mrssage})
     }
 }
 
